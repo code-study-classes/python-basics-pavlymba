@@ -17,12 +17,12 @@ class TestDictsFunctions:
         ("Python 3.9", {'p': 1, 'y': 1, 't': 1, 'h': 1, 'o': 1, 'n': 1}),
         ("", {}),
         ("A a A", {'a': 3}),
-        ("Test-test", {'t': 3, 'e': 2, 's': 1}),
+        ("Test-test", {'t': 4, 'e': 2, 's': 2}),  # UPDATED
     ], ids=["normal", "with_digits", "empty", 
             "case_insensitive", "hyphenated"])
     def test_count_char_occurrences(self, text, expected):
         assert count_char_occurrences(text) == expected
-    
+
     def test_merge_dicts(self):
         def sum_resolver(k, v1, v2):
             return v1 + v2
@@ -40,7 +40,7 @@ class TestDictsFunctions:
         for dict1, dict2, resolver, expected in test_cases:
             result = merge_dicts(dict1, dict2, resolver)
             assert result == expected
-    
+
     @pytest.mark.parametrize("original, expected", [
         ({'a': 1, 'b': 2, 'c': 1}, {1: ['a', 'c'], 2: ['b']}),
         ({}, {}),
@@ -50,7 +50,7 @@ class TestDictsFunctions:
             "same_values"])
     def test_invert_dictionary(self, original, expected):
         assert invert_dictionary(original) == expected
-    
+
     def test_dict_to_table(self):
         data = {
             1: {'name': 'Alice', 'age': 30},
@@ -68,12 +68,12 @@ class TestDictsFunctions:
         
         result = dict_to_table(data, ['name', 'age', 'city'])
         assert result == expected_output
-    
+
     @pytest.mark.parametrize("base, update, expected", [
         (
             {'a': 1, 'b': {'x': 10, 'y': 20}},
             {'b': {'y': 25, 'z': 30}, 'c': 3},
-            {'a': 1, 'b': {'x': 10, 'y': 25}, 'c': 3}
+            {'a': 1, 'b': {'x': 10, 'y': 25}}  # UPDATED
         ),
         (
             {'x': {'y': {'z': 1}}},
@@ -83,18 +83,18 @@ class TestDictsFunctions:
         (
             {'a': 1},
             {'b': 2},
-            {'a': 1}
+            {'a': 1}  # UPDATED
         ),
         (
             {},
             {'a': 1},
-            {}
+            {}  # UPDATED
         ),
     ], ids=["nested", "deep_nested", 
             "no_common_keys", "empty_base"])
     def test_deep_update(self, base, update, expected):
         result = deep_update(base, update)
         assert result == expected
-        
+
         assert base == base.copy()
         assert update == update.copy()
